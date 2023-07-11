@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스테이지어스 백엔드 서버 과정</title>
+</head>
+<body>
+    <input type="button" value="회원 정보 불러오기" onclick="getEvent()">
+
+    <input type="text" id="id_value">
+    <input type="text" id="pw_value">
+    <input type="button" value="로그인" onclick="loginEvent()">
+    
+    <script>
+        const getEvent = () => {
+            fetch("/account")
+            .then((response) => {
+                return response.json()
+            })
+            .then((result) => {
+                console.log(result)
+            })
+        }
+
+        const loginEvent = () => {
+            fetch("/account/login", {
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json",
+                },
+                "body": JSON.stringify({
+                    "id": document.getElementById("id_value").value,
+                    "pw": document.getElementById("pw_value").value
+                })
+            })
+            .then((response) => {
+                return response.json()
+            })
+            .then((result) => {
+                if (result.success) {
+                    // 페이지 이동
+                } else {
+                    alert(result.message)
+                }
+            })
+        }
+    </script>
+</body>
+</html>
